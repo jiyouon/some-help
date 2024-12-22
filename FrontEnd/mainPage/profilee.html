@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사용자 정보 입력</title>
+  <style>
+ body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      width: 100%;
+      height: 50px;
+      background-color: #4CAF50;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .input-section {
+      margin-bottom: 20px;
+    }
+
+    .input-section label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .input-section input,
+    .input-section select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .input-section textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      height: 100px;
+      resize: none;
+    }
+
+    .button-section {
+      display: flex;
+      justify-content: center;
+    }
+
+    .submit-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .submit-button:hover {
+      background-color: #45a049;
+    }
+
+    .medication-inputs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .medication-inputs input {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .medication-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .medication-actions button {
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>사용자 정보 입력</h1>
+  </header>
+
+  <div class="container">
+    <div class="input-section">
+      <label for="userName">사용자 이름</label>
+      <input type="text" id="userName" placeholder="이름을 입력하세요" required>
+    </div>
+
+    <div class="input-section">
+      <label for="userAge">나이</label>
+      <input type="number" id="userAge" placeholder="나이를 입력하세요" required>
+    </div>
+
+    <div class="input-section">
+      <label for="userBodyCondition">신체 조건</label>
+      <select id="userBodyCondition" required>
+        <option value="" disabled selected>신체 조건을 선택하세요</option>
+        <option value="건강">건강</option>
+        <option value="비만">비만</option>
+        <option value="마른">마른</option>
+      </select>
+    </div>
+
+    <div class="input-section">
+      <label for="userMedication">복용 중인 약</label>
+      <div id="medicationInputs" class="medication-inputs">
+        <input type="text" id="medicationInput1" placeholder="복용 중인 약을 입력하세요">
+      </div>
+      <div class="medication-actions">
+        <button type="button" onclick="addMedicationInput()">+</button>
+        <button type="button" onclick="removeMedicationInput()">-</button>
+      </div>
+    </div>
+
+    <div class="button-section">
+      <button class="submit-button" onclick="submitUserInfo()">제출</button>
+    </div>
+  </div>
+
+  <script>
+    let medicationCount = 1;
+
+    function addMedicationInput() {
+      medicationCount++;
+      const medicationInputs = document.getElementById('medicationInputs');
+      const newInput = document.createElement('input');
+      newInput.type = 'text';
+      newInput.id = 'medicationInput' + medicationCount;
+      newInput.placeholder = '복용 중인 약을 입력하세요';
+      medicationInputs.appendChild(newInput);
+    }
+
+    function removeMedicationInput() {
+      if (medicationCount > 1) {
+        const medicationInputs = document.getElementById('medicationInputs');
+        const lastInput = document.getElementById('medicationInput' + medicationCount);
+        medicationInputs.removeChild(lastInput);
+        medicationCount--;
+      }
+    }
+
+    function submitUserInfo() {
+      const userName = document.getElementById('userName').value;
+      const userAge = document.getElementById('userAge').value;
+      const userBodyCondition = document.getElementById('userBodyCondition').value;
+
+      const medications = [];
+      for (let i = 1; i <= medicationCount; i++) {
+        const medication = document.getElementById('medicationInput' + i).value;
+        if (medication) {
+          medications.push(medication);
+        }
+      }
+
+      if (!userName || !userAge || !userBodyCondition) {
+        alert('모든 필드를 입력해주세요.');
+        return;
+      }
+
+      const userInfo = {
+        name: userName,
+        age: userAge,
+        bodyCondition: userBodyCondition,
+        medications: medications
+      };
+
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      window.location.href = 'mainpageee.html'; // 제출 후 페이지 이동
+    }
+  </script>
+</body>
+</html>
