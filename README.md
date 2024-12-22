@@ -69,6 +69,8 @@
 ![코드3](./3.png)
 ### 약 추천 인공지능
 ![코드4](./4.png)
+### 시연 영상
+![시연영상](./https://www.youtube.com/shorts/Mf8jRbxDBxM)
 ---
 ## 어려웠던 점
 
